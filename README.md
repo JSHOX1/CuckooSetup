@@ -132,27 +132,29 @@ GRANT ALL PRIVILEGES ON DATABASE cuckoo TO cuckoo;
 ````
 nano /home/cuckoo/.cuckoo/conf/cuckoo.conf
 ````
-* Change connection =  postgresql://cuckoo:password@localhost/cuckoo
+* Change the connection = line to connection =  postgresql://cuckoo:password@localhost/cuckoo
 
 ## Adding VMs
+* Preparing the virtualbox.conf file by removing the cuckoo1 entry from machines = cuckoo1
 ````
 nano /home/cuckoo/.cuckoo/conf/virtualbox.conf
 ````
-* remove the entry cuckoo1 in the machines = cuckoo1
+* Adding snapshots to virtualbox.conf
 ````
 while read -r vm ip; do cuckoo machine --add $vm $ip; done < <(vmcloak list vms)
 ````
+* Installing Cuckoo Signatures
 ````
 cuckoo community --force
 ````
 
 ## Network configuration
-* change outgoing interface
+* Replace outgoinginterface with your outgoing interface
 ````
 sudo sysctl -w net.ipv4.conf.vboxnet0.forwarding=1
 sudo sysctl -w net.ipv4.conf.outgoinginterface.forwarding=1
 ````
-* change outgoing interface
+* Replace outgoinginterface with your outgoing interface
 ````
 sudo iptables -t nat -A POSTROUTING -o outgoinginterface -s 192.168.56.0/24 -j MASQUERADE
 sudo iptables -P FORWARD DROP
@@ -160,15 +162,20 @@ sudo iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -s 192.168.56.0/24 -j ACCEPT
 sudo apt-get install -y iptables-persistent
 ````
+* Enabling IP forwarding at startup after reboot uncomment the line net.ipv4.ip_forward=1
 ````
 sudo gedit /etc/sysctl.conf
 ````
-* uncomment the line net.ipv4.ip_forward=1
-
+* Auto starting the VirtualBox network interface on reboot
 ````
 sudo apt-get install -y vim
+````
+* Create the /opt/system/vboxhostonly directory and create the bash script to run the vboxmanage commands
+````
 sudo mkdir /opt/systemd/
 sudo vim /opt/systemd/vboxhostonly
+````
+* Copy in the text below and save with vim (hit esc key and type “:w” and hit enter)
 ````
 #!/bin/bash
 
@@ -176,12 +183,17 @@ vboxmanage hostonlyif create
 
 vboxmanage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
 ````
+* Go to the directory where you saved the vboxhostonly file and make the file executable
+````
 cd /opt/systemd/
 sudo chmod a+x vboxhostonly
 ````
+* Create the vboxhostonlynic.service file in /etc/systemd/system/ directory
 ````
 sudo touch /etc/systemd/system/vboxhostonlynic.service
 sudo gedit /etc/systemd/system/vboxhostonlynic.service
+````
+* Copy in the code below and save the file
 ````
 Description=Setup VirtualBox Hostonly Adapter
 
@@ -201,12 +213,15 @@ ExecStart=/opt/systemd/vboxhostonly
 
 WantedBy=multi-user.target
 ````
+* Now install the systemd service and enable it so it will be executed at boot time
+````
 systemctl daemon-reload
 systemctl enable vboxhostonlynic.service
 systemctl start vboxhostonlynic.service
 ````
 
 ## Cuckoo Web Interface
+* Installing MongoDB
 ````
 sudo apt-get install mongodb
 ````
@@ -214,22 +229,26 @@ sudo apt-get install mongodb
 ````
 nano /home/cuckoo/.cuckoo/conf/virtualbox.conf
 ````
+* Installing uWSGI
 ````
 pip install uwsgi
 ````
+* Installing uWSGI and nginx packages
 ````
 sudo apt-get install uwsgi uwsgi-plugin-python nginx
 ````
+* Generating the configuration files for uWSGI
 ````
 cuckoo web --uwsgi > cuckoo-web.ini
 sudo cp cuckoo-web.ini /etc/uwsgi/apps-available/cuckoo-web.ini
 sudo ln -s /etc/uwsgi/apps-available/cuckoo-web.ini /etc/uwsgi/apps-enabled/cuckoo-web.ini
 ````
+* Ensuring that the www-data user can read the Cuckoo web files by adding it to the cuckoo group
 ````
 sudo adduser www-data cuckoo
 sudo systemctl restart uwsgi
 ````
-* edit cuckoo-web.conf to listen *:8000;
+* Generating the configuration files for nginx. Edit cuckoo-web.conf to listen *:8000;
 ````
 cuckoo web --nginx > cuckoo-web.conf
 nano cuckoo-web.conf
@@ -239,6 +258,7 @@ sudo systemctl restart nginx
 ````
 
 ## Starting Cuckoo
+* Switching user, starting the venv and starting Cuckoo
 ````
 sudo su cuckoo
 . ~/cuckoo/bin/activate
@@ -246,6 +266,7 @@ cuckoo --debug
 ````
 
 ## Freeing up space
+* Freeing up space to make the ova file as small as possible
 ````
 sudo apt-get clean
 sudo dd if=/dev/zero of=/EMPTY bs=1M
@@ -254,6 +275,7 @@ cat /dev/null > ~/.bash_history && history -c && exit
 ````
 
 ## Export to ova
+* Exporting to ova
 ````
 .\ovftool.exe "cuckoo.vmx" cuckoo.ova
 ````
