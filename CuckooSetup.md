@@ -11,7 +11,9 @@
 sudo apt-get update
 sudo apt-get -y install python virtualenv python-pip python-dev build-essential
 ````
+````
 sudo adduser --disabled-password --gecos "" cuckoo
+````
 ````
 sudo groupadd pcap
 sudo usermod -a -G pcap cuckoo
