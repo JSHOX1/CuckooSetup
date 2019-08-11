@@ -222,10 +222,10 @@ cat /dev/null > ~/.bash_history && history -c && exit
 .\ovftool.exe "cuckoo.vmx" cuckoo.ova
 ````
 ## References
-https://hatching.io/blog/cuckoo-sandbox-setup
-https://tom-churchill.blogspot.com/2017/08/setting-up-cuckoo-sandbox-step-by-step.html
-https://precisionsec.com/virtualbox-host-only-network-cuckoo-sandbox-0-4-2/
-https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04
-https://learning.oreilly.com/library/view/cuckoo-malware-analysis/9781782169239/ch01s05.html
-https://community.spiceworks.com/topic/1984447-trying-to-export-a-vm-but-disk-is-too-big
-https://springmerchant.com/bigcommerce/psycopg2-virtualenv-install-pg_config-executable-not-found/
+* https://hatching.io/blog/cuckoo-sandbox-setup
+* https://tom-churchill.blogspot.com/2017/08/setting-up-cuckoo-sandbox-step-by-step.html
+* https://precisionsec.com/virtualbox-host-only-network-cuckoo-sandbox-0-4-2/
+* https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-ubuntu-18-04
+* https://learning.oreilly.com/library/view/cuckoo-malware-analysis/9781782169239/ch01s05.html
+* https://community.spiceworks.com/topic/1984447-trying-to-export-a-vm-but-disk-is-too-big
+* https://springmerchant.com/bigcommerce/psycopg2-virtualenv-install-pg_config-executable-not-found/
