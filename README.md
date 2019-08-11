@@ -158,11 +158,15 @@ sudo iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -s 192.168.56.0/24 -j ACCEPT
 sudo apt-get install -y iptables-persistent
 ````
-* Enabling IP forwarding at startup after reboot uncomment the line net.ipv4.ip_forward=1
+
+## Enabling IP forwarding at startup after reboot
+* Uncomment the line net.ipv4.ip_forward=1
 ````
 sudo gedit /etc/sysctl.conf
 ````
-* Auto starting the VirtualBox network interface on reboot
+
+## Auto starting the VirtualBox network interface on reboot
+* Installing vim
 ````
 sudo apt-get install -y vim
 ````
