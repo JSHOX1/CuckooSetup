@@ -178,7 +178,9 @@ systemctl start vboxhostonlynic.service
 sudo apt-get install mongodb
 ````
 #[MongoDB] section. Change enabled = no to enabled = yes
+````
 nano /home/cuckoo/.cuckoo/conf/virtualbox.conf
+````
 ````
 pip install uwsgi
 ````
