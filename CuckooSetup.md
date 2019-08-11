@@ -1,12 +1,12 @@
 # CuckooSetup
-#################################################################################################
-Hardware requirements
+
+## Hardware requirements
 Ubuntu 18.04 LTS
 Quad Core CPU
 4 GB RAM
 320 GB HDD
-#################################################################################################
-#Initial Setup
+
+## Initial Setup
 
 sudo apt-get update
 sudo apt-get -y install python virtualenv python-pip python-dev build-essential
@@ -24,8 +24,8 @@ sudo aa-disable /usr/sbin/tcpdump
 wget https://cuckoo.sh/win7ultimate.iso
 mkdir /mnt/win7
 sudo mount -o ro,loop win7ultimate.iso /mnt/win7
-#################################################################################################
-#Installing VirtualBox
+
+## Installing VirtualBox
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
 
