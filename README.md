@@ -24,7 +24,7 @@ sudo aa-disable /usr/sbin/tcpdump
 wget https://cuckoo.sh/win7ultimate.iso
 mkdir /mnt/win7
 sudo mount -o ro,loop win7ultimate.iso /mnt/win7
--------------------------------------------------------------------------------------------------
+
 #Installing VirtualBox
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
