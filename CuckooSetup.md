@@ -30,15 +30,18 @@ mkdir /mnt/win7
 sudo mount -o ro,loop win7ultimate.iso /mnt/win7
 ````
 ## Installing VirtualBox
+````
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-
+````
+````
 sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
-
+````
+````
 sudo apt-get update
 sudo apt-get install virtualbox-5.2
 sudo usermod -a -G vboxusers cuckoo
-
+````
 ## Cuckoo and VMCloak installation
 sudo apt-get -y install build-essential libssl-dev libffi-dev python-dev genisoimage
 sudo apt-get -y install zlib1g-dev libjpeg-dev
