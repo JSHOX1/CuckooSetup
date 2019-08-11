@@ -31,7 +31,7 @@ sudo aa-disable /usr/sbin/tcpdump
 * Downloading and mounting Windows 7
 ````
 wget https://cuckoo.sh/win7ultimate.iso
-mkdir /mnt/win7
+sudo mkdir /mnt/win7
 sudo mount -o ro,loop win7ultimate.iso /mnt/win7
 ````
 
