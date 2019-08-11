@@ -20,6 +20,7 @@ sudo usermod -a -G pcap cuckoo
 sudo chgrp pcap /usr/sbin/tcpdump
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 ````
+````
 sudo apt-get install -y apparmor-utils
 sudo aa-disable /usr/sbin/tcpdump
 ````
