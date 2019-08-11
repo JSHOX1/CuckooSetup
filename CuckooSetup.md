@@ -24,6 +24,7 @@ sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 sudo apt-get install -y apparmor-utils
 sudo aa-disable /usr/sbin/tcpdump
 ````
+````
 wget https://cuckoo.sh/win7ultimate.iso
 mkdir /mnt/win7
 sudo mount -o ro,loop win7ultimate.iso /mnt/win7
