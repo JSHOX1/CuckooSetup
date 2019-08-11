@@ -141,7 +141,9 @@ sudo mkdir /opt/systemd/
 sudo vim /opt/systemd/vboxhostonly
 ````
 #!/bin/bash
+
 vboxmanage hostonlyif create
+
 vboxmanage hostonlyif ipconfig vboxnet0 --ip 192.168.56.1
 ````
 cd /opt/systemd/
@@ -196,9 +198,9 @@ sudo ln -s /etc/uwsgi/apps-available/cuckoo-web.ini /etc/uwsgi/apps-enabled/cuck
 sudo adduser www-data cuckoo
 sudo systemctl restart uwsgi
 ````
+* edit cuckoo-web.conf to listen *:8000;
 ````
 cuckoo web --nginx > cuckoo-web.conf
-#edit cuckoo-web.conf to listen *:8000;
 nano cuckoo-web.conf
 sudo cp cuckoo-web.conf /etc/nginx/sites-available/cuckoo-web.conf
 sudo ln -s /etc/nginx/sites-available/cuckoo-web.conf /etc/nginx/sites-enabled/cuckoo-web.conf
