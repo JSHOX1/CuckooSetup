@@ -124,11 +124,10 @@ CREATE USER cuckoo WITH ENCRYPTED PASSWORD 'password';
 GRANT ALL PRIVILEGES ON DATABASE cuckoo TO cuckoo;
 \q
 ````
-* Editing the cuckoo.conf file to use Postgres instead of SQLite
+* Editing the cuckoo.conf file to use Postgres instead of SQLite. Change the connection = line to connection =  postgresql://cuckoo:password@localhost/cuckoo
 ````
 nano /home/cuckoo/.cuckoo/conf/cuckoo.conf
 ````
-* Change the connection = line to connection =  postgresql://cuckoo:password@localhost/cuckoo
 
 ## Adding VMs
 * Preparing the virtualbox.conf file by removing the cuckoo1 entry from machines = cuckoo1
