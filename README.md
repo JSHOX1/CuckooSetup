@@ -7,92 +7,120 @@
 * 320 GB HDD
 
 ## Initial Setup
+* Update the package manager and install core tools
 ````
 sudo apt-get update
 sudo apt-get -y install python virtualenv python-pip python-dev build-essential
 ````
+* Create a new user to run Cuckoo under
 ````
 sudo adduser --disabled-password --gecos "" cuckoo
 ````
+* Giving the cuckoo user permission to create network dumps
 ````
 sudo groupadd pcap
 sudo usermod -a -G pcap cuckoo
 sudo chgrp pcap /usr/sbin/tcpdump
 sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 ````
+* Disabling AppArmor
 ````
 sudo apt-get install -y apparmor-utils
 sudo aa-disable /usr/sbin/tcpdump
 ````
+* Downloading and mounting Windows 7 ISO
 ````
 wget https://cuckoo.sh/win7ultimate.iso
 mkdir /mnt/win7
 sudo mount -o ro,loop win7ultimate.iso /mnt/win7
 ````
+
 ## Installing VirtualBox
+* Adding VirtualBox repository keys
 ````
 wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
 wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
 ````
+* Adding VirtualBox repository
 ````
 sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
 ````
+* Installing VirtualBox 5.2 and adding the cuckoo user to the vboxusers group
 ````
 sudo apt-get update
 sudo apt-get install virtualbox-5.2
 sudo usermod -a -G vboxusers cuckoo
 ````
+
 ## Cuckoo and VMCloak installation
+* Installing required packages for VMCloak and Cuckoo
 ````
 sudo apt-get -y install build-essential libssl-dev libffi-dev python-dev genisoimage
 sudo apt-get -y install zlib1g-dev libjpeg-dev
 sudo apt-get -y install python-pip python-virtualenv python-setuptools swig
 ````
+* Creating a virtualenv for Cuckoo
 ````
 sudo su cuckoo
 virtualenv ~/cuckoo
 . ~/cuckoo/bin/activate
 ````
+* Installing Cuckoo and VMCloak
 ````
 pip install -U cuckoo vmcloak
 ````
+
 ## Automatic VM creation
+* Instantiating a VirtualBox Host-Only network adapter for the VMs to use
 ````
 vmcloak-vboxnet0
 ````
+* Setting up a Windows VM
 ````
 vmcloak init --verbose --win7x64 win7x64base --cpus 2 --ramsize 2048
 ````
+* Cloning the base image
 ````
 vmcloak clone win7x64base win7x64cuckoo
 ````
+* Installing software packages
 ````
 vmcloak install win7x64cuckoo adobepdf pillow dotnet java flash vcredist vcredist.version=2015u3 wallpaper
 ````
+* Installing ie11
 ````
 vmcloak install win7x64cuckoo ie11
 ````
+* Installing Office 2007
 ````
 vmcloak install win7x64cuckoo office office.version=2007 office.isopath=/path/to/office2007.iso office.serialkey=XXXXX-XXXXX-XXXXX-XXXXX-XXXXX
 ````
+* Creating 4 snapshots
 ````
 vmcloak snapshot --count 4 win7x64cuckoo win7x64cuckoo_ 192.168.56.101
 ````
+* Listing snapshots
 ````
 vmcloak list vms
 ````
+
 ## Configuring Cuckoo
+* Initializing Cuckoo and its configuration
 ````
 cuckoo init
 ````
+
 ## Postgres installation
+* Installing Postgres
 ````
 sudo apt install postgresql postgresql-contrib
 sudo apt-get install libpq-dev python-dev
 ````
+* Installing Postgres database driver for Cuckoo
 ````
 pip install psycopg2
 ````
+* Creating a user and database for Cuckoo to use
 ````
 sudo -u postgres psql
 CREATE DATABASE cuckoo;
@@ -100,6 +128,7 @@ CREATE USER cuckoo WITH ENCRYPTED PASSWORD 'password';
 GRANT ALL PRIVILEGES ON DATABASE cuckoo TO cuckoo;
 \q
 ````
+* Editing the cuckoo.conf file to use Postgres instead of SQLite
 ````
 nano /home/cuckoo/.cuckoo/conf/cuckoo.conf
 ````
@@ -116,6 +145,7 @@ while read -r vm ip; do cuckoo machine --add $vm $ip; done < <(vmcloak list vms)
 ````
 cuckoo community --force
 ````
+
 ## Network configuration
 * change outgoing interface
 ````
@@ -175,6 +205,7 @@ systemctl daemon-reload
 systemctl enable vboxhostonlynic.service
 systemctl start vboxhostonlynic.service
 ````
+
 ## Cuckoo Web Interface
 ````
 sudo apt-get install mongodb
@@ -206,12 +237,14 @@ sudo cp cuckoo-web.conf /etc/nginx/sites-available/cuckoo-web.conf
 sudo ln -s /etc/nginx/sites-available/cuckoo-web.conf /etc/nginx/sites-enabled/cuckoo-web.conf
 sudo systemctl restart nginx
 ````
+
 ## Starting Cuckoo
 ````
 sudo su cuckoo
 . ~/cuckoo/bin/activate
 cuckoo --debug
 ````
+
 ## Freeing up space
 ````
 sudo apt-get clean
@@ -219,10 +252,12 @@ sudo dd if=/dev/zero of=/EMPTY bs=1M
 sudo rm -f /EMPTY
 cat /dev/null > ~/.bash_history && history -c && exit
 ````
+
 ## Export to ova
 ````
 .\ovftool.exe "cuckoo.vmx" cuckoo.ova
 ````
+
 ## References
 * https://cuckoo.sh/docs/index.html#
 * https://hatching.io/blog/cuckoo-sandbox-setup
