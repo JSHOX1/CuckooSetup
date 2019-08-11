@@ -166,10 +166,6 @@ sudo gedit /etc/sysctl.conf
 ````
 
 ## Auto starting the VirtualBox network interface on reboot
-* Installing vim
-````
-sudo apt-get install -y vim
-````
 * Create the /opt/system/vboxhostonly directory and create the bash script to run the vboxmanage commands
 ````
 sudo mkdir /opt/systemd/
