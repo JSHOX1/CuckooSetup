@@ -34,8 +34,8 @@ sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtual
 sudo apt-get update
 sudo apt-get install virtualbox-5.2
 sudo usermod -a -G vboxusers cuckoo
-#################################################################################################
-#Cuckoo and VMCloak installation
+
+## Cuckoo and VMCloak installation
 sudo apt-get -y install build-essential libssl-dev libffi-dev python-dev genisoimage
 sudo apt-get -y install zlib1g-dev libjpeg-dev
 sudo apt-get -y install python-pip python-virtualenv python-setuptools swig
@@ -45,8 +45,8 @@ virtualenv ~/cuckoo
 . ~/cuckoo/bin/activate
 
 pip install -U cuckoo vmcloak
-#################################################################################################
-#Automatic VM creation
+
+## Automatic VM creation
 vmcloak-vboxnet0
 
 vmcloak init --verbose --win7x64 win7x64base --cpus 2 --ramsize 2048
@@ -62,11 +62,11 @@ vmcloak install win7x64cuckoo office office.version=2007 office.isopath=/path/to
 vmcloak snapshot --count 4 win7x64cuckoo win7x64cuckoo_ 192.168.56.101
 
 vmcloak list vms
-#################################################################################################
-#Configuring Cuckoo
+
+## Configuring Cuckoo
 cuckoo init
-#################################################################################################
-#Postgres installation
+
+## Postgres installation
 sudo apt install postgresql postgresql-contrib
 
 sudo apt-get install libpq-dev python-dev
@@ -82,8 +82,8 @@ GRANT ALL PRIVILEGES ON DATABASE cuckoo TO cuckoo;
 nano /home/cuckoo/.cuckoo/conf/cuckoo.conf
 
 #Change connection =  postgresql://cuckoo:password@localhost/cuckoo
-#################################################################################################
-#Adding VMs
+
+## Adding VMs
 nano /home/cuckoo/.cuckoo/conf/virtualbox.conf
 
 #remove the entry cuckoo1 in the machines = cuckoo1
@@ -91,8 +91,8 @@ nano /home/cuckoo/.cuckoo/conf/virtualbox.conf
 while read -r vm ip; do cuckoo machine --add $vm $ip; done < <(vmcloak list vms)
 
 cuckoo community --force
-#################################################################################################
-#Network configuration
+
+## Network configuration
 #change outgoing interface
 sudo sysctl -w net.ipv4.conf.vboxnet0.forwarding=1
 sudo sysctl -w net.ipv4.conf.outgoinginterface.forwarding=1
@@ -143,8 +143,8 @@ WantedBy=multi-user.target
 systemctl daemon-reload
 systemctl enable vboxhostonlynic.service
 systemctl start vboxhostonlynic.service
-#################################################################################################
-#Cuckoo Web Interface
+
+## Cuckoo Web Interface
 sudo apt-get install mongodb
 
 #[MongoDB] section. Change enabled = no to enabled = yes
@@ -168,21 +168,21 @@ nano cuckoo-web.conf
 sudo cp cuckoo-web.conf /etc/nginx/sites-available/cuckoo-web.conf
 sudo ln -s /etc/nginx/sites-available/cuckoo-web.conf /etc/nginx/sites-enabled/cuckoo-web.conf
 sudo systemctl restart nginx
-#################################################################################################
-#Starting Cuckoo
+
+## Starting Cuckoo
 sudo su cuckoo
 . ~/cuckoo/bin/activate
 cuckoo --debug
-#################################################################################################
-#Freeing up space and exporting Sandbox to ova
+
+## Freeing up space and exporting Sandbox to ova
 sudo apt-get clean
 sudo dd if=/dev/zero of=/EMPTY bs=1M
 sudo rm -f /EMPTY
 cat /dev/null > ~/.bash_history && history -c && exit
 
 .\ovftool.exe "cuckoo.vmx" cuckoo.ova
-#################################################################################################
-#References
+
+## References
 https://hatching.io/blog/cuckoo-sandbox-setup
 https://tom-churchill.blogspot.com/2017/08/setting-up-cuckoo-sandbox-step-by-step.html
 https://precisionsec.com/virtualbox-host-only-network-cuckoo-sandbox-0-4-2/
