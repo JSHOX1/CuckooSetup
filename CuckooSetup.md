@@ -103,13 +103,13 @@ GRANT ALL PRIVILEGES ON DATABASE cuckoo TO cuckoo;
 ````
 nano /home/cuckoo/.cuckoo/conf/cuckoo.conf
 ````
-#Change connection =  postgresql://cuckoo:password@localhost/cuckoo
+* Change connection =  postgresql://cuckoo:password@localhost/cuckoo
 
 ## Adding VMs
 ````
 nano /home/cuckoo/.cuckoo/conf/virtualbox.conf
 ````
-#remove the entry cuckoo1 in the machines = cuckoo1
+* remove the entry cuckoo1 in the machines = cuckoo1
 ````
 while read -r vm ip; do cuckoo machine --add $vm $ip; done < <(vmcloak list vms)
 ````
@@ -117,12 +117,12 @@ while read -r vm ip; do cuckoo machine --add $vm $ip; done < <(vmcloak list vms)
 cuckoo community --force
 ````
 ## Network configuration
-#change outgoing interface
+* change outgoing interface
 ````
 sudo sysctl -w net.ipv4.conf.vboxnet0.forwarding=1
 sudo sysctl -w net.ipv4.conf.outgoinginterface.forwarding=1
 ````
-#change outgoing interface
+* change outgoing interface
 ````
 sudo iptables -t nat -A POSTROUTING -o outgoinginterface -s 192.168.56.0/24 -j MASQUERADE
 sudo iptables -P FORWARD DROP
@@ -133,7 +133,7 @@ sudo apt-get install -y iptables-persistent
 ````
 sudo gedit /etc/sysctl.conf
 ````
-#uncomment the line net.ipv4.ip_forward=1
+* uncomment the line net.ipv4.ip_forward=1
 
 ````
 sudo apt-get install -y vim
@@ -177,7 +177,7 @@ systemctl start vboxhostonlynic.service
 ````
 sudo apt-get install mongodb
 ````
-#[MongoDB] section. Change enabled = no to enabled = yes
+* Change the MongoDB section from enabled = no to enabled = yes
 ````
 nano /home/cuckoo/.cuckoo/conf/virtualbox.conf
 ````
