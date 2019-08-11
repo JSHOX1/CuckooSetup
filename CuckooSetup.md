@@ -106,8 +106,9 @@ nano /home/cuckoo/.cuckoo/conf/cuckoo.conf
 #Change connection =  postgresql://cuckoo:password@localhost/cuckoo
 
 ## Adding VMs
+````
 nano /home/cuckoo/.cuckoo/conf/virtualbox.conf
-
+````
 #remove the entry cuckoo1 in the machines = cuckoo1
 ````
 while read -r vm ip; do cuckoo machine --add $vm $ip; done < <(vmcloak list vms)
