@@ -102,7 +102,7 @@ GRANT ALL PRIVILEGES ON DATABASE cuckoo TO cuckoo;
 ````
 ````
 nano /home/cuckoo/.cuckoo/conf/cuckoo.conf
-
+````
 #Change connection =  postgresql://cuckoo:password@localhost/cuckoo
 
 ## Adding VMs
