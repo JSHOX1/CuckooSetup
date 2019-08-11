@@ -12,7 +12,7 @@
 sudo apt-get update
 sudo apt-get -y install python virtualenv python-pip python-dev build-essential
 ````
-* Create a new user to run Cuckoo under
+* Create a new user to run Cuckoo
 ````
 sudo adduser --disabled-password --gecos "" cuckoo
 ````
@@ -28,7 +28,7 @@ sudo setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
 sudo apt-get install -y apparmor-utils
 sudo aa-disable /usr/sbin/tcpdump
 ````
-* Downloading and mounting Windows 7 ISO
+* Downloading and mounting Windows 7
 ````
 wget https://cuckoo.sh/win7ultimate.iso
 mkdir /mnt/win7
@@ -98,10 +98,6 @@ vmcloak install win7x64cuckoo office office.version=2007 office.isopath=/path/to
 * Creating 4 snapshots
 ````
 vmcloak snapshot --count 4 win7x64cuckoo win7x64cuckoo_ 192.168.56.101
-````
-* Listing snapshots
-````
-vmcloak list vms
 ````
 
 ## Configuring Cuckoo
