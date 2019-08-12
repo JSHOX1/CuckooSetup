@@ -167,6 +167,7 @@ sudo gedit /etc/sysctl.conf
 ## Auto starting the VirtualBox network interface on reboot
 * Create the /opt/system/vboxhostonly directory and create the bash script to run the vboxmanage commands
 ````
+sudo apt-get install -y vim
 sudo mkdir /opt/systemd/
 sudo vim /opt/systemd/vboxhostonly
 ````
@@ -222,7 +223,7 @@ sudo apt-get install mongodb
 ````
 * Change the MongoDB section from enabled = no to enabled = yes
 ````
-nano /home/cuckoo/.cuckoo/conf/virtualbox.conf
+nano /home/cuckoo/.cuckoo/conf/reporting.conf
 ````
 * Installing uWSGI
 ````
